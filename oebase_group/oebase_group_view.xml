@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="view_oebase_group_tree" model="ir.ui.view">
+            <field name="name">oebase.group.tree</field>
+            <field name="model">oebase.group</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <tree string="Groups">
+                    <field name="name" />
+                    <field name="subject" />
+                    <field name="responsible" />
+                    <field name="date_group_inclusion" />
+                </tree>
+            </field>
+        </record>
+        
+        <record id="view_oebase_group_form" model="ir.ui.view">
+            <field name="name">oebase.group.form</field>
+            <field name="model">oebase.group</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <form string="Group" version="7.0">
+                    <sheet string="Group">
+                        <div class="oe_center" name="center">
+                            <!-- Put here related fields -->
+                        </div>
+                        <group>
+                            <field name="name" />
+                            <field name="responsible" />
+                            <field name="subject" default_focus="1" />
+                            <field name="date_group_inclusion" />
+                        </group>
+                        <label for="notes" class="oe_edit_only"/>
+                        <field name="notes" placeholder="Notes..."/>
+                        <div class="oe_right oe_button_box" name="button_box">
+                            <!-- Put here related buttons -->
+                        </div>
+                        <notebook>
+                            <page string="Settings" groups="oebase_base.group_oebase_manager">
+                                <group>
+                                    <field name="active"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record id="view_oebase_group_search" model="ir.ui.view">
+            <field name="name">oebase.group.search</field>
+            <field name="model">oebase.group</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <search string="Group">
+                    <field name="name" />
+                    <field name="subject" />
+                    <field name="responsible" />
+                    <field name="date_group_inclusion" />
+                    <field name="notes" />
+                    <separator/>
+                    <filter string="Inactive Groups" name="active" domain="[('active','=',0)]" help="Inactive Groups"/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Responsible" domain="[]" context="{'group_by':'responsible'}" />
+                        <filter string="Group Inclusion Date" domain="[]" context="{'group_by':'date_group_inclusion'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="act_open_oebase_group_view">
+            <field name="name">Groups</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">oebase.group</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_oebase_group_search" />
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to add a new group.
+              </p><p>
+                With just a quick glance on the group screen, you
+                can easily find all the information you need for each group.
+              </p>
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window.view"
+        id="act_open_oebase_group_view_form">
+            <field name="act_window_id" ref="act_open_oebase_group_view" />
+            <field name="sequence" eval="20" />
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_oebase_group_form" />
+        </record>
+        
+        <record model="ir.actions.act_window.view"
+        id="act_open_oebase_group_view_tree">
+            <field name="act_window_id" ref="act_open_oebase_group_view" />
+            <field name="sequence" eval="10" />
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_oebase_group_tree" />
+        </record>
+        
+        <menuitem name="Group" id="menu_base_base_group" 
+            parent="oebase_base.menu_base_base"
+            groups="oebase_base.group_oebase_group_user"
+            sequence="40"/>
+            
+        <menuitem name="Group" id="menu_base_config_group" 
+            parent="oebase_base.menu_base_config"
+            groups="oebase_base.group_oebase_group_manager"
+            sequence="50"/>
+            
+        <menuitem name="Groups" id="menu_base_base_group_groups"
+            parent="menu_base_base_group"
+            groups="oebase_base.group_oebase_group_user"
+            sequence="10"
+            action="act_open_oebase_group_view" />
+
+    </data>
+</openerp>

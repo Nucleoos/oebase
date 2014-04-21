@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="view_oebase_event_tree" model="ir.ui.view">
+            <field name="name">oebase.event.tree</field>
+            <field name="model">oebase.event</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <tree string="Events">
+                    <field name="name" />
+                    <field name="subject" />
+                    <field name="responsible" />
+                    <field name="start_time" />
+                    <field name="end_time" />
+                </tree>
+            </field>
+        </record>
+        
+        <record id="view_oebase_event_form" model="ir.ui.view">
+            <field name="name">oebase.event.form</field>
+            <field name="model">oebase.event</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <form string="Event" version="7.0">
+                    <sheet string="Event">
+                        <div class="oe_center" name="center">
+                            <!-- Put here related fields -->
+                        </div>
+                        <group>
+                            <field name="name" />
+                            <field name="responsible" />
+                            <field name="subject" default_focus="1" />
+                            <field name="start_time" />
+                            <field name="end_time" />
+                        </group>
+                        <label for="notes" class="oe_edit_only"/>
+                        <field name="notes" placeholder="Notes..."/>
+                        <div class="oe_right oe_button_box" name="button_box">
+                            <!-- Put here related buttons -->
+                        </div>
+                        <notebook>
+                            <page string="Settings" groups="oebase_base.group_oebase_manager">
+                                <group>
+                                    <field name="active"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record id="view_oebase_event_search" model="ir.ui.view">
+            <field name="name">oebase.event.search</field>
+            <field name="model">oebase.event</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <search string="Event">
+                    <field name="name" />
+                    <field name="subject" />
+                    <field name="responsible" />
+                    <field name="start_time" />
+                    <field name="notes" />
+                    <separator/>
+                    <filter string="Inactive Events" name="active" domain="[('active','=',0)]" help="Inactive Events"/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Responsible" domain="[]" context="{'group_by':'responsible'}" />
+                        <filter string="Start Time" domain="[]" context="{'group_by':'start_time'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="act_open_oebase_event_view">
+            <field name="name">Events</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">oebase.event</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_oebase_event_search" />
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to add a new event.
+              </p><p>
+                With just a quick glance on the event screen, you
+                can easily find all the information you need for each event.
+              </p>
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window.view"
+        id="act_open_oebase_event_view_form">
+            <field name="act_window_id" ref="act_open_oebase_event_view" />
+            <field name="sequence" eval="20" />
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_oebase_event_form" />
+        </record>
+        
+        <record model="ir.actions.act_window.view"
+        id="act_open_oebase_event_view_tree">
+            <field name="act_window_id" ref="act_open_oebase_event_view" />
+            <field name="sequence" eval="10" />
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_oebase_event_tree" />
+        </record>
+        
+        <menuitem name="Event" id="menu_base_base_event" 
+            parent="oebase_base.menu_base_base"
+            groups="oebase_base.group_oebase_event_user"
+            sequence="30"/>
+            
+        <menuitem name="Event" id="menu_base_config_event" 
+            parent="oebase_base.menu_base_config"
+            groups="oebase_base.group_oebase_event_manager"
+            sequence="40"/>
+            
+        <menuitem name="Events" id="menu_base_base_event_events"
+            parent="menu_base_base_event"
+            groups="oebase_base.group_oebase_event_user"
+            sequence="10"
+            action="act_open_oebase_event_view" />
+
+    </data>
+</openerp>

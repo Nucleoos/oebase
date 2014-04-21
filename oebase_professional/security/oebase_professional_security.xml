@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+
+        <record id="oebase_base.group_oebase_professional_user" model="res.groups">
+            <field name="name">Base Professional User</field>
+        </record>
+        
+        <record id="oebase_base.group_oebase_professional_manager" model="res.groups">
+            <field name="name">Base Professional Manager</field>
+            <field name="implied_ids" eval="[(4, ref('oebase_base.group_oebase_professional_user'))]"/>
+        </record>
+        
+    </data>
+</openerp>

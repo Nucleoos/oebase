@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_department_form" model="ir.ui.view">
+            <field name="name">oebase.professional.department.form</field>
+            <field name="model">oebase.professional.department</field>
+            <field name="arch" type="xml">
+                <form string="department" version="7.0">
+                    <sheet>
+                        <group col="4">
+                            <field name="name"/>
+                            <field name="manager_id"/>
+                            <field name="parent_id"/>
+                            <field name="company_id" widget="selection" groups="base.group_multi_company"/>
+                        </group>
+                        <group string="Members">
+                            <field name="member_ids" colspan="4" nolabel="1" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record id="view_department_tree" model="ir.ui.view">
+            <field name="name">oebase.professional.department.tree</field>
+            <field name="model">oebase.professional.department</field>
+            <field name="field_parent">child_ids</field>
+            <field name="arch" type="xml">
+                <tree string="Companies">
+                    <field name="complete_name"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="manager_id"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="view_department_filter" model="ir.ui.view">
+            <field name="name">Professional Departments</field>
+            <field name="model">oebase.professional.department</field>
+            <field name="arch" type="xml">
+                <search string="Professional Departments">
+                    <field name="complete_name" string="Department"/>
+                    <field name="manager_id" string="Manager"/>
+                </search>
+             </field>
+        </record>
+
+        <record id="open_module_tree_department" model="ir.actions.act_window">
+            <field name="name">Professional Departments</field>
+            <field name="res_model">oebase.professional.department</field>
+            <field name="view_type">form</field>
+            <field name="search_view_id" ref="view_department_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a professional department.
+              </p><p>
+                OpenERP's professional department structure is used to manage all documents
+                related to health professionals by departments.
+              </p>
+            </field>
+        </record>
+
+        <menuitem name="Departments" id="menu_base_config_professional_departments"
+            parent="menu_base_config_professional"
+            groups="oebase_base.group_oebase_suser"
+            sequence="20"
+            action="open_module_tree_department" />
+
+        <record id="view_oebase_professional_tree_department" model="ir.ui.view">
+            <field name="name">oebase.professional.tree</field>
+            <field name="model">oebase.professional</field>
+            <field name="inherit_id" ref="view_oebase_professional_tree"/>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <field name="company_id" position="after">
+                    <field name="department_id"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_oebase_professional_form_department" model="ir.ui.view">
+            <field name="name">oebase.professional.form</field>
+            <field name="model">oebase.professional</field>
+            <field name="inherit_id" ref="view_oebase_professional_form"/>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <field name="parent_id" position="before">
+                    <field name="department_id" on_change="onchange_department_id(department_id)"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_oebase_professional_search_department" model="ir.ui.view">
+            <field name="name">oebase.professional.search</field>
+            <field name="model">oebase.professional</field>
+            <field name="inherit_id" ref="view_oebase_professional_search"/>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <filter string="Coach" position="after">
+                    <filter string="Department" icon="terp-personal+" domain="[]" context="{'group_by':'department_id'}"/>
+                </filter>
+            </field>
+        </record>
+
+    </data>
+</openerp>

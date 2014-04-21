@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="view_oebase_event_participant_tree" model="ir.ui.view">
+            <field name="name">oebase.event.participant.tree</field>
+            <field name="model">oebase.event.participant</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <tree string="Event Participants">
+                    <field name="event_id" />
+                    <field name="role" />
+                    <field name="user_id" />
+                    <field name="notes" />
+                </tree>
+            </field>
+        </record>
+        
+        <record id="view_oebase_event_participant_form" model="ir.ui.view">
+            <field name="name">oebase.event.participant.form</field>
+            <field name="model">oebase.event.participant</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <form string="Event Participants" version="7.0">
+                    <sheet>
+                        <group>
+                            <field name="event_id" />
+                            <field name="role" default_focus="1"/>
+                            <field name="user_id" />
+                        </group>
+                        <label for="notes" class="oe_edit_only"/>
+                        <field name="notes" placeholder="Notes..."/>
+                        <notebook>
+                            <page string="Settings" groups="oebase_base.group_oebase_manager">
+                                <group>
+                                    <field name="active"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record id="view_oebase_event_participant_search" model="ir.ui.view">
+            <field name="name">oebase.event.participant.search</field>
+            <field name="model">oebase.event.participant</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <search string="Event Participants">
+                    <field name="event_id" />
+                    <field name="role" />
+                    <newline />
+                    <group expand="0" string="Group By...">
+                        <filter string="Event" domain="[]" context="{'group_by':'event_id'}" />
+                        <filter string="Participant Role" domain="[]" context="{'group_by':'role'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="act_open_oebase_event_participant_view">
+            <field name="name">Event Participants</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">oebase.event.participant</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_oebase_event_participant_search" />
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to add a new event participant.
+              </p><p>
+                With just a quick glance on the event participant screen, you
+                can easily find all the information you need for each event participant.
+              </p>
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window.view" id="act_open_oebase_event_participant_view_form">
+            <field name="act_window_id" ref="act_open_oebase_event_participant_view" />
+            <field name="sequence" eval="20" />
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_oebase_event_participant_form" />
+        </record>
+        
+        <record model="ir.actions.act_window.view" id="act_open_oebase_event_participant_view_tree">
+            <field name="act_window_id" ref="act_open_oebase_event_participant_view" />
+            <field name="sequence" eval="10" />
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_oebase_event_participant_tree" />
+        </record>
+        
+        <menuitem name="Participants" id="menu_base_base_event_participants"  
+            parent="menu_base_base_event"
+            groups="oebase_base.group_oebase_event_user"
+            sequence="20" 
+            action="act_open_oebase_event_participant_view" />
+
+        <record id="view_oebase_event_form_participant" model="ir.ui.view">
+            <field name="name">oebase.event.form</field>
+            <field name="model">oebase.event</field>
+            <field name="inherit_id" ref="view_oebase_event_form"/>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <page string="Settings" position="before">
+                    <page string="Participants">
+                        <field name="participant_ids" colspan="4" nolabel="1"/>
+                    </page>
+                </page>
+            </field>
+        </record>
+
+    </data>
+</openerp>

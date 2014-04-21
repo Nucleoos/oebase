@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data noupdate="1">
+
+        <record id="seq_type_oebase_event" model="ir.sequence.type">
+            <field name="name">Base Event Sequence</field>
+            <field name="code">oebase.event.code</field>
+        </record>
+        
+        <record id="seq_oebase_oebase" model="ir.sequence">
+            <field name="name">Base Event Sequence</field>
+            <field name="code">oebase.event.code</field>
+            <field name="padding" eval="9"/>
+            <field name="prefix">02000</field>
+        </record>
+
+    </data>
+</openerp>

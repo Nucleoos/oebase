@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+
+        <record id="oebase_base.group_oebase_user" model="res.groups">
+            <field name="name">Base User</field>
+        </record>
+
+        <record id="oebase_base.group_oebase_suser" model="res.groups">
+            <field name="name">Base Super User</field>
+            <field name="implied_ids" eval="[(4, ref('oebase_base.group_oebase_user'))]"/>
+        </record>
+
+        <record id="oebase_base.group_oebase_manager" model="res.groups">
+            <field name="name">Base Manager</field>
+            <field name="implied_ids" eval="[(4, ref('oebase_base.group_oebase_suser'))]"/>
+        </record>
+
+        <record id="oebase_base.group_oebase_rmanager" model="res.groups">
+            <field name="name">Base Register Manager</field>
+            <field name="implied_ids" eval="[(4, ref('oebase_base.group_oebase_manager'))]"/>
+        </record>
+
+        <record id="oebase_base.group_oebase_smanager" model="res.groups">
+            <field name="name">Base Super Manager</field>
+            <field name="implied_ids" eval="[(4, ref('oebase_base.group_oebase_rmanager'))]"/>
+        </record>
+
+     </data>
+</openerp>

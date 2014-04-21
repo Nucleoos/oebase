@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="view_oebase_professional_form_uid" model="ir.ui.view">
+            <field name="name">oebase.professional.form</field>
+            <field name="model">oebase.professional</field>
+            <field name="inherit_id" ref="oebase_professional.view_oebase_professional_form"/>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <field name="active" position="after">
+                    <field name="create_uid" string="Create User" groups="oebase_base.group_oebase_rmanager"/>
+                    <field name="create_date" string="Create Date" groups="oebase_base.group_oebase_rmanager"/>
+                    <field name="write_uid" string="Write User" groups="oebase_base.group_oebase_rmanager"/>
+                    <field name="write_date" string="Write Date" groups="oebase_base.group_oebase_rmanager"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

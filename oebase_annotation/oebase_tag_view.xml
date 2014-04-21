@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        
+        <record id="view_oebase_annotation_tree_tag" model="ir.ui.view">
+            <field name="name">oebase.annotation.tree</field>
+            <field name="model">oebase.annotation</field>
+            <field name="inherit_id" ref="view_oebase_annotation_tree"/>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <field name="ref" position="before">
+                    <field name="tag_ids" groups="oebase_base.group_oebase_suser"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_oebase_annotation_form_tag" model="ir.ui.view">
+            <field name="name">oebase.annotation.form</field>
+            <field name="model">oebase.annotation</field>
+            <field name="inherit_id" ref="view_oebase_annotation_form"/>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <div name="center" position="inside">
+                    <label for="tag_ids" class="oe_edit_only"/>
+                    <h2>
+                        <field name="tag_ids" widget="many2many_tags" placeholder="Tags..." groups="oebase_base.group_oebase_suser"/>
+                    </h2>
+                </div>
+            </field>
+        </record>
+
+        <record id="view_oebase_annotation_search_tag" model="ir.ui.view">
+            <field name="name">oebase.annotation.search</field>
+            <field name="model">oebase.annotation</field>
+            <field name="inherit_id" ref="view_oebase_annotation_search"/>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <field name="ref" position="after">
+                    <field name="tag_ids" />
+                </field>
+            </field>
+        </record>
+
+        <record id="view_oebase_tag_form" model="ir.ui.view">
+            <field name="name">oebase.tag.form</field>
+            <field name="model">oebase.tag</field>
+            <field name="inherit_id" ref="oebase_tag.view_oebase_tag_form"/>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <page string="Settings" position="before">
+                    <page string="Annotations" groups="oebase_base.group_oebase_suser">
+                        <group>
+                            <field name="annotation_ids" colspan="4" nolabel="1" />
+                        </group>
+                    </page>
+                </page>
+            </field>
+        </record>
+
+    </data>
+</openerp>

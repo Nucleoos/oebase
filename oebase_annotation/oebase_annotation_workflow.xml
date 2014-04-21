@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="workflow_oebase_annotation" model="workflow">
+            <field name="name">oebase.annotation.wkf</field>
+            <field name="osv">oebase.annotation</field>
+            <field name="on_create" eval='True'/>
+        </record>
+
+        <record id="act_new" model="workflow.activity">
+            <field name="wkf_id" ref="workflow_oebase_annotation" />
+            <field name="flow_start" eval='True'/>
+            <field name="name">new</field>
+            <field name="kind">function</field>
+            <field name="action">new()</field>
+        </record>
+
+        <record id="act_revised" model="workflow.activity">
+            <field name="wkf_id" ref="workflow_oebase_annotation" />
+            <field name="name">revised</field>
+            <field name="kind">function</field>
+            <field name="action">revised()</field>
+        </record>
+
+        <record id="act_waiting" model="workflow.activity">
+            <field name="wkf_id" ref="workflow_oebase_annotation" />
+            <field name="name">waiting</field>
+            <field name="kind">function</field>
+            <field name="action">waiting()</field>
+        </record>
+
+        <record id="act_okay" model="workflow.activity">
+            <field name="wkf_id" ref="workflow_oebase_annotation" />
+            <field name="name">okay</field>
+            <field name="kind">function</field>
+            <field name="action">okay()</field>
+            <!--field name="flow_stop">True</field-->
+        </record>
+
+        <record id="t1" model="workflow.transition">
+            <field name="act_from" ref="act_new" />
+            <field name="act_to" ref="act_revised" />
+            <field name="signal">revised</field>
+        </record>
+
+        <record id="t2" model="workflow.transition">
+            <field name="act_from" ref="act_new" />
+            <field name="act_to" ref="act_waiting" />
+            <field name="signal">waiting</field>
+        </record>
+
+        <record id="t3" model="workflow.transition">
+            <field name="act_from" ref="act_new" />
+            <field name="act_to" ref="act_okay" />
+            <field name="signal">okay</field>
+        </record>
+
+        <record id="t4" model="workflow.transition">
+            <field name="act_from" ref="act_revised" />
+            <field name="act_to" ref="act_waiting" />
+            <field name="signal">waiting</field>
+        </record>
+
+        <record id="t5" model="workflow.transition">
+            <field name="act_from" ref="act_revised" />
+            <field name="act_to" ref="act_okay" />
+            <field name="signal">okay</field>
+        </record>
+
+        <record id="t6" model="workflow.transition">
+            <field name="act_from" ref="act_waiting" />
+            <field name="act_to" ref="act_revised" />
+            <field name="signal">revised</field>
+        </record>
+
+        <record id="t7" model="workflow.transition">
+            <field name="act_from" ref="act_waiting" />
+            <field name="act_to" ref="act_okay" />
+            <field name="signal">okay</field>
+        </record>
+
+        <record id="t8" model="workflow.transition">
+            <field name="act_from" ref="act_okay" />
+            <field name="act_to" ref="act_revised" />
+            <field name="signal">revised</field>
+        </record>
+
+    </data>
+</openerp>

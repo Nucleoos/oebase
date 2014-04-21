@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="view_oebase_specialty_form" model="ir.ui.view">
+            <field name="name">oebase.specialty.form</field>
+            <field name="model">oebase.specialty</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <form string="Specialty" version="7.0">
+                    <sheet>
+                        <div class="oe_center" name="center">
+                            <!-- Put here related fields -->
+                        </div>
+                        <div class="oe_title">
+                            <label for="parent_id" class="oe_edit_only"/>
+                            <h2>
+                                <field name="parent_id" placeholder="Parent Specialty..." />
+                            </h2>
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" default_focus="1" placeholder="Specialty..." />
+                            </h1>
+                            <label for="code" class="oe_edit_only"/>
+                            <h3>
+                                <field name="code" placeholder="Code..." />
+                            </h3>
+                            <label for="description" class="oe_edit_only"/>
+                            <h3>
+                                <field name="description" placeholder="Description..." />
+                            </h3>
+                            <label for="notes" class="oe_edit_only"/>
+                            <field name="notes" placeholder="Notes..."/>
+                        </div>
+                        <notebook>
+                            <page string="Settings" groups="oebase_base.group_oebase_manager">
+                                <group>
+                                    <field name="active"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record id="view_oebase_specialty_tree" model="ir.ui.view">
+            <field name="name">oebase.specialty.tree</field>
+            <field name="model">oebase.specialty</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <tree string="Specialties">
+                    <field name="complete_name" />
+                    <field name="code" />
+                    <field name="description" colspan="4"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="view_oebase_specialty_search" model="ir.ui.view">
+            <field name="name">oebase.specialty.search</field>
+            <field name="model">oebase.specialty</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <search string="Specialties">
+                    <field name="complete_name" />
+                    <field name="code" />
+                    <field name="description" />
+                    <field name="notes" />
+                    <filter string="Inactive Specialties" name="active" domain="[('active','=',0)]" help="Inactive Specialties"/>
+                </search>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="act_open_oebase_specialty_view">
+            <field name="name">Specialties</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">oebase.specialty</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_oebase_specialty_search" />
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to add a new specialty.
+              </p><p>
+                With just a quick glance on the specialty screen, you
+                can easily find all the information you need for each specialty.
+              </p>
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window.view" id="act_open_oebase_specialty_view_form">
+            <field name="act_window_id" ref="act_open_oebase_specialty_view" />
+            <field name="sequence" eval="20" />
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_oebase_specialty_form" />
+        </record>
+        
+        <record model="ir.actions.act_window.view" id="act_open_oebase_specialty_view_tree">
+            <field name="act_window_id" ref="act_open_oebase_specialty_view" />
+            <field name="sequence" eval="10" />
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_oebase_specialty_tree" />
+        </record>
+        
+        <menuitem name="Specialties" id="menu_base_config_specialties"
+            parent="oebase_base.menu_base_config"
+            groups="oebase_base.group_oebase_user"
+            sequence="30"
+            action="act_open_oebase_specialty_view" />
+
+    </data>
+</openerp>

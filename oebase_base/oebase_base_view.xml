@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    
+        <!-- Base -->
+        <menuitem name="Base" id="menu_base" 
+            groups="oebase_base.group_oebase_user"
+            sequence="11"/>
+        <!-- Base/Base -->
+        <menuitem name="Base" id="menu_base_base"  
+            parent="menu_base"
+            groups="oebase_base.group_oebase_user"
+            sequence="10" />
+        <!-- Base/Configuration -->
+        <menuitem name="Configuration" id="menu_base_config"  
+            parent="menu_base"
+            groups="oebase_base.group_oebase_manager"
+            sequence="90" />
+            
+    </data>
+</openerp>

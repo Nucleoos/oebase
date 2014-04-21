@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_oebase_tag_oebase_user,oebase.tag,model_oebase_tag,oebase_base.group_oebase_user,1,0,0,0
+access_oebase_tag_oebase_manager,oebase.tag,model_oebase_tag,oebase_base.group_oebase_manager,1,1,1,0
+access_oebase_tag_oebase_smanager,oebase.tag,model_oebase_tag,oebase_base.group_oebase_smanager,1,1,1,1

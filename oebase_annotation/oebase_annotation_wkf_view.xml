@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="view_oebase_annotation_tree_wkf" model="ir.ui.view">
+            <field name="name">oebase.annotation.tree</field>
+            <field name="model">oebase.annotation</field>
+            <field name="inherit_id" ref="oebase_annotation.view_oebase_annotation_tree"/>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <field name="ref" position="after">
+                    <field name="state" />
+                </field>
+            </field>
+        </record>
+
+        <record id="view_oebase_annotation_form_wkf" model="ir.ui.view">
+            <field name="name">oebase.annotation.form</field>
+            <field name="model">oebase.annotation</field>
+            <field name="inherit_id" ref="oebase_annotation.view_oebase_annotation_form"/>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <sheet string="Annotation" position="before">
+                    <header>
+                        <button name="revised" string="Revised" states="new,waiting,okay" type="workflow" groups="oebase_base.group_oebase_manager"/>
+                        <button name="waiting" string="Waiting" states="new,revised" type="workflow" groups="oebase_base.group_oebase_manager"/>
+                        <button name="okay" string="Okay" class="oe_highlight" states="new,revised,waiting" type="workflow" groups="oebase_base.group_oebase_manager"/>
+                        <field name="state" widget="statusbar" statusbar_visible="new,revised,waiting,okay"
+                        statusbar_colors='{"new":"blue","revised":"blue","waiting":"blue","okay":"blue"}' />
+                    </header>
+                </sheet>
+            </field>
+        </record>
+
+        <record id="view_oebase_annotation_search_wkf" model="ir.ui.view">
+            <field name="name">oebase.annotation.search</field>
+            <field name="model">oebase.annotation</field>
+            <field name="inherit_id" ref="oebase_annotation.view_oebase_annotation_search"/>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <field name="ref" position="after">
+                    <field name="state" />
+                </field>
+                <filter string="Date" position="before">
+                    <filter string="Stage" domain="[]" context="{'group_by':'state'}" />
+                </filter>
+            </field>
+        </record>
+
+    </data>
+</openerp>

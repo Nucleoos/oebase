@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="view_oebase_professional_tree" model="ir.ui.view">
+            <field name="name">oebase.professional.tree</field>
+            <field name="model">oebase.professional</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <tree string="Health Professional">
+                    <field name="name"/>
+                    <field name="professional_code" />
+                    <field name="work_phone"/>
+                    <field name="work_email"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <!--field name="job_id"/-->
+                    <field name="parent_id"/>
+                    <field name="coach_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="view_oebase_professional_form" model="ir.ui.view">
+            <field name="name">oebase.professional.form</field>
+            <field name="model">oebase.professional</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <form string="Health Professionals" version="7.0">
+                    <sheet string="Professional">
+                        <div class="oe_center" name="center">
+                            <!-- Put here related fields -->
+                        </div>
+                        <field name="image_medium" widget='image' class="oe_left oe_avatar"/>
+                        <div class="oe_title">
+                            <label for="name"  class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" default_focus="1" placeholder="Name..."/>
+                            </h1>
+                            <label for="alias" class="oe_edit_only"/>
+                            <h2>
+                                <field name="alias" placeholder="Alias..."/>
+                            </h2>
+                            <label for="professional_code" class="oe_edit_only"/>
+                            <h2>
+                                <field name="professional_code" placeholder="Professional Code..."/>
+                            </h2>
+                        </div>
+                        <div class="oe_right oe_button_box" name="button_box">
+                            <!-- Put here related buttons -->
+                        </div>
+                        <notebook>
+                            <page string="Public Information">
+                                <!--group>
+                                    <field name="health_partner_code" readonly='True'/>
+                                    <field name="professional_status" />
+                                    <field name="date_professional_inclusion" />
+                                    <field name="date_professional_activation" />
+                                    <field name="date_professional_inactivation" />
+                                </group-->
+                                <group>
+                                    <group string="Contact Information">
+                                        <field name="address_id" on_change="onchange_address_id(address_id)" context="{'show_address': 1}" options='{"always_reload": True, "highlight_first_line": True}'/>
+                                        <field name="work_email" widget="email"/>
+                                        <field name="work_phone"/>
+                                        <field name="mobile_phone"/>
+                                        <field name="work_location"/>
+                                    </group>
+                                    <group string="Position">
+                                        <!--field name="job_id" options='{"no_open": True}' domain="[('state','!=','old')]" context="{'form_view_ref': 'hr.view_hr_job_professional_form'}"/-->
+                                        <field name="parent_id"/>
+                                        <field name="coach_id"/>
+                                    </group>
+                                    <group>
+                                        <field name="company_id" groups="base.group_multi_company" on_change="onchange_company(company_id)"/>
+                                        <field name="user_id" on_change="onchange_user(user_id)" string="Related User"/>
+                                    </group>
+                                    <group>
+                                        <field name="login"/>
+                                        <field name="last_login"/>
+                                    </group>
+                                </group>
+                                <field name="notes" placeholder="Other Information ..." colspan="4"/>
+                            </page>
+                            <page string="Personal Information" groups="oebase_base.group_oebase_suser">
+                                <group>
+                                    <group string="Citizenship &amp; Other Info">
+                                        <field name="country_id" options='{"no_open": True}'/>
+                                        <!--field name="identification_id" groups="base.group_hr_user"/-->
+                                        <field name="identification_id"/>
+                                        <!--field name="otherid" groups="base.group_hr_user"/-->
+                                        <field name="otherid"/>
+                                    </group>
+                                    <group string="Contact Information">
+                                        <field name="address_home_id" context="{'show_address': 1}" options='{"always_reload": True, "highlight_first_line": True}'/>
+                                    </group>
+                                    <group string="Status">
+                                        <field name="gender"/>
+                                        <field name="marital"/>
+                                    </group>
+                                    <group string="Birth">
+                                        <field name="birthday"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Settings" groups="oebase_base.group_oebase_manager">
+                                <group>
+                                    <field name="active"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="view_oebase_professional_kanban">
+            <field name="name">oebase.professional.kanban</field>
+            <field name="model">oebase.professional</field>
+            <field name="priority">10</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="last_login"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_professional_vignette">
+                                <div class="oe_professional_image">
+                                    <a type="open"><img t-att-src="kanban_image('oebase.professional', 'image_medium', record.id.value)" class="oe_professional_picture"/></a>
+                                </div>
+                                <div class="oe_professional_details">
+                                    <h4>
+                                        <a type="open"><field name="name"/><t t-if="record.login.raw_value"> (<field name="login"/>)</t></a>
+                                    </h4>
+                                    <ul>
+                                        <li t-if="record.professional_code.raw_value"><field name="professional_code"/></li>
+                                        <!--li t-if="record.job_id.raw_value"><field name="job_id"/></li-->
+                                        <li t-if="record.work_location.raw_value"><field name="work_location"/></li>
+                                        <li t-if="record.work_phone.raw_value">Tel: <field name="work_phone"/></li>
+                                        <li t-if="record.mobile_phone.raw_value">Mobile: <field name="mobile_phone"/></li>
+                                        <li t-if="record.work_email.raw_value"><a t-attf-href="mailto:#{record.work_email.value}"><field name="work_email"/></a></li>
+                                        <li id="last_login">
+                                            <span t-if="record.last_login.raw_value &amp;&amp; record.last_login.raw_value.is().today()" class="oe_kanban_button" style="font-size: 100%%">
+                                                  <!--t t-esc="record.last_login.raw_value.toString('yyyy-MM-dd HH:mm')"/-->
+                                                  <t t-esc="record.last_login.raw_value.toString('yyyy-MM-dd')"/>
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <script>
+                                $('.oe_professional_picture').load(function() { if($(this).width() > $(this).height()) { $(this).addClass('oe_professional_picture_wide') } });
+                            </script>
+                        </t>
+                    </templates>
+                </kanban>
+
+            </field>
+        </record>
+
+        <record id="view_oebase_professional_search" model="ir.ui.view">
+            <field name="name">oebase.professional.search</field>
+            <field name="model">oebase.professional</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <search string="Professional">
+                    <field name="name" />
+                    <field name="professional_code" />
+                    <!--field name="professional_status" /-->
+                    <field name="company_id" />
+                    <separator/>
+                    <filter string="Inactive Professionals" name="active" domain="[('active','=',0)]" help="Inactive Professionals"/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Manager" icon="terp-personal" domain="[]" context="{'group_by':'parent_id'}"/>
+                        <filter string="Coach" icon="terp-personal" domain="[]" context="{'group_by':'coach_id'}"/>
+                        <!--filter string="Job" icon="terp-gtk-select-all" domain="[]" context="{'group_by':'job_id'}"/-->
+                        <filter string="Company" icon="terp-go-home" domain="[]" context="{'group_by':'company_id'}" groups="base.group_multi_company"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="act_open_oebase_professional_view">
+            <field name="name">Health Professionals</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">oebase.professional</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="search_view_id" ref="view_oebase_professional_search" />
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="view_id" eval="False"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to add a new professional.
+              </p><p>
+                With just a quick glance on the professional screen, you
+                can easily find all the information you need for each person;
+                contact data, availability, etc.
+              </p>
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window.view" id="act_open_oebase_professional_view_form">
+            <field name="act_window_id" ref="act_open_oebase_professional_view" />
+            <field name="sequence" eval="20" />
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_oebase_professional_form" />
+        </record>
+        
+        <record model="ir.actions.act_window.view" id="act_open_oebase_professional_view_tree">
+            <field name="act_window_id" ref="act_open_oebase_professional_view" />
+            <field name="sequence" eval="10" />
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_oebase_professional_tree" />
+        </record>
+        
+        <menuitem name="Professional" id="menu_base_config_professional" 
+            parent="oebase_base.menu_base_config"
+            groups="oebase_base.group_oebase_event_manager"
+            sequence="60"/>
+            
+        <menuitem name="Professionals" id="menu_base_base_professionals"
+            parent="oebase_base.menu_base_base"
+            groups="oebase_base.group_oebase_professional_user"
+            sequence="50"
+            action="act_open_oebase_professional_view" />
+
+    </data>
+</openerp>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        
+        <record id="view_oebase_group_form_tag" model="ir.ui.view">
+            <field name="name">oebase.group.form</field>
+            <field name="model">oebase.group</field>
+            <field name="inherit_id" ref="view_oebase_group_form"/>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <page string="Settings" position="before">
+                    <page string="Annotations" groups="oebase_base.group_oebase_suser">
+                        <group>
+                            <field name="annotation_ids" colspan="4" nolabel="1" />
+                        </group>
+                    </page>
+                </page>
+            </field>
+        </record>
+
+        <record id="view_oebase_annotation_form" model="ir.ui.view">
+            <field name="name">oebase.annotation.form</field>
+            <field name="model">oebase.annotation</field>
+            <field name="inherit_id" ref="oebase_annotation.view_oebase_annotation_form"/>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <field name="active" position="after">
+                    <field name="group_id"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>
